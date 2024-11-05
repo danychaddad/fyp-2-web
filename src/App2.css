@@ -1,0 +1,139 @@
+
+.container {
+    display: flex; 
+    flex-direction: column; 
+}
+
+.map-and-sensors {
+    display: flex; 
+    margin-bottom: 20px; 
+}
+
+.sensor-data {
+    
+    display: flex;
+    flex-direction: column; 
+    max-width: 200px; 
+}
+.sensor-data h1 {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column; 
+    max-width: 200px; 
+    margin-left: 20px; 
+}
+
+.sensor-nodes {
+    margin-left: 20px; 
+    display: flex;                 
+    justify-content: space-between; 
+    gap: 20px;                    
+    width: 100%;
+}
+
+.sensor-node {
+    border: 1px solid #ccc; 
+    padding: 20px; 
+    margin: 0;
+    border-radius: 10px; 
+    width: 180px; 
+    min-height: 100px; 
+    background-color: #f9f9f9; 
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+    flex-shrink: 0; 
+}
+
+.sensor-node h2 {
+    
+    margin-top: 0; 
+    font-size: 16px; 
+}
+
+
+p {
+    font-size: 12px; 
+    margin: 3px 0; 
+}
+
+.button-container {
+    display: flex;                 
+    justify-content: flex-end;       
+    margin-top: 20px;            
+    width: 100%;     
+    margin-left: 150px;              
+    
+}
+
+.button-container button {
+    padding: 5px 20px; 
+    border: none; 
+    border-radius: 10px; 
+    background-color: #B2E0F7; 
+    color: black;
+    cursor: pointer; 
+    font-size: 12px;
+}
+
+.button-container button:hover {
+    background-color: #87CEEB; 
+}
+
+.incidents-and-teams-and-pichart {
+    display: flex; 
+    justify-content: flex-start; 
+    margin-top: 0px; 
+    align-items: flex-start;
+}
+
+.current-incidents {
+    text-align: left; 
+    margin-right: 15px; 
+    margin-left: 15px;
+}
+
+.available-teams {
+    margin-left: 15px; 
+    margin-right: 20px;
+    
+}
+
+.available-teams ul {
+    list-style-type: none; 
+    padding-left: 0; 
+    font-size: 14px; 
+}
+
+.pie-chart-section {
+    width: 200px; 
+    height: 200px; 
+    margin-right: 0px; 
+    margin-left: 0px;
+}
+
+.pie-chart-section .chart-title {
+    font-size: 20px !important; 
+    margin-bottom: -35px !important;
+}
+
+.bar-chart-section {
+    width: 400px; 
+    height: 200px; 
+    margin-top: 5px !important;
+    
+    
+}
+
+.charts-container {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+}
+
+h1 {
+    font-size: 20px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
