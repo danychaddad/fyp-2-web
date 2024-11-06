@@ -1,4 +1,4 @@
-// CreateForest.js
+
 import React, { useRef, useState } from 'react';
 import { MapContainer, TileLayer, Polygon, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
@@ -8,15 +8,15 @@ import './CreateForest.css';
 
 const CreateForest = () => {
     const featureGroupRef = useRef(null);
-    const [forestAreas, setForestAreas] = useState([]); // Store multiple polygons
+    const [forestAreas, setForestAreas] = useState([]); 
 
-    // Predefined array of coordinates for a polygon
+    
     const predefinedCoordinates = [
         [35.5, 36.0],
         [35.6, 36.1],
         [35.7, 36.0],
         [35.6, 35.9],
-        [35.5, 36.0] // Closing the polygon by repeating the first coordinate
+        [35.5, 36.0] 
     ];
 
     const handleCreated = (e) => {
@@ -26,7 +26,7 @@ const CreateForest = () => {
             lng: latLng.lng
         }));
         
-        setForestAreas(prevAreas => [...prevAreas, coordinates]); // Add new coordinates to the array
+        setForestAreas(prevAreas => [...prevAreas, coordinates]); 
         console.log("Selected Area Coordinates:", coordinates);
     };
 
@@ -37,7 +37,7 @@ const CreateForest = () => {
             lng: latLng.lng,
         })));
 
-        // Filter out the deleted areas
+        
         setForestAreas(prevAreas => prevAreas.filter(area => {
             return !deletedCoordinates.some(deletedCoord => 
                 JSON.stringify(deletedCoord) === JSON.stringify(area)
@@ -55,10 +55,10 @@ const CreateForest = () => {
                     attribution="&copy; OpenStreetMap contributors"
                 />
                 
-                {/* Display the predefined polygon */}
+                
                 <Polygon positions={predefinedCoordinates} color="green" />
 
-                {/* Render all drawn polygons */}
+                
                 {forestAreas.map((coordinates, index) => (
                     <Polygon key={index} positions={coordinates} color="green" />
                 ))}
@@ -67,7 +67,7 @@ const CreateForest = () => {
                     <EditControl
                         position="topright"
                         onCreated={handleCreated}
-                        onDeleted={handleDeleted} // Ensure this is correctly referenced
+                        onDeleted={handleDeleted} 
                         draw={{
                             rectangle: false,
                             circle: false,
@@ -79,7 +79,7 @@ const CreateForest = () => {
                 </FeatureGroup>
             </MapContainer>
 
-            {/* Section to display coordinates of all selected areas */}
+            
             {forestAreas.length > 0 && (
                 <div className="coordinates-display">
                     <h3>Newly Added Forest Areas</h3>
@@ -89,8 +89,8 @@ const CreateForest = () => {
                             <ul>
                                 {area.map((coord, coordIndex) => (
                                     <li key={coordIndex}>
-                                        <p style={{ margin: 0 }}>Lat: {coord.lat}</p>
-                                        <p style={{ margin: 0 }}>Lng: {coord.lng}</p>
+                                        <p style={{ margin: 0 }}><strong>Lat:</strong> {coord.lat}</p>
+                                        <p style={{ margin: 0 }}><strong>Lng:</strong> {coord.lng}</p>
                                     </li>
                                 ))}
                             </ul>
@@ -103,3 +103,4 @@ const CreateForest = () => {
 };
 
 export default CreateForest;
+
