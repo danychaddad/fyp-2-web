@@ -1,0 +1,44 @@
+name: Deploy React App
+
+on:
+  push:
+    branches: [ "main" ]  # Replace with your deployment branch if different
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository code
+      - uses: actions/checkout@v4
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Ensure this matches the Node.js version on your EC2
+
+      # Install dependencies and build the project
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      # Deploy to EC2
+      - name: Deploy to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: 'build/*'
+          target: '/home/ec2-user/your-react-app/build'
+
+      # Restart Nginx
+      - name: Restart Nginx on EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart nginx
