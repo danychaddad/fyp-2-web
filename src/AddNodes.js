@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet';
 import { useMapEvent } from 'react-leaflet/hooks';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import './AddNodes.css';
+// import './AddNodes.css';
 
 const AddNodes = () => {
   const [markers, setMarkers] = useState([]);
