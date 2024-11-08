@@ -31,7 +31,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
-          script: rm -rf /home/ubuntu/fyp-2-web/build
+          script: sudo rm -rf /home/ubuntu/fyp-2-web/build
 
       # Step 5: Transfer the build files to EC2
       - name: Transfer build files to EC2
