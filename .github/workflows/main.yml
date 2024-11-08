@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
           source: 'build/*'
-          target: '/home/ubuntu/fyp-2-web/build'
+          target: '/home/ubuntu/fyp-2-web'
 
       # Step 5: Restart Nginx to serve the new build
       - name: Restart Nginx on EC2
