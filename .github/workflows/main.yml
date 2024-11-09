@@ -2,11 +2,15 @@ name: Build and Deploy React App
 
 on:
   push:
-    branches: [ "main" ]  # Replace with your deployment branch if different
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "*" ]
 
 jobs:
-  build-and-deploy:
+  # Job 1: Build on Pull Requests
+  build-on-pr:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
       # Step 1: Check out the repository code
@@ -16,7 +20,28 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Ensure this matches your Node.js version
+          node-version: '20'
+
+      # Step 3: Install dependencies and build the project
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+  # Job 2: Deploy on Push to Main
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Step 1: Check out the repository code
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
       # Step 3: Install dependencies and build the project
       - name: Install dependencies and build
