@@ -2,14 +2,29 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Polygon } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "chart.js/auto";
-import { Link } from "react-router-dom";
 import "./css/index.css";
 import ForestDrawer from "./ForestDrawer";
+import Navbar from "./Navbar";
+
+const getMostRecentWeatherMap = async () => {
+  const res = await fetch(
+    "https://api.rainviewer.com/public/weather-maps.json"
+  );
+  const resJson = await res.json();
+  return resJson.radar.nowcast[0].path;
+};
 
 const App = () => {
-  const centerPosition = [33.8938, 36.5018];
   const [forests, setForests] = useState([]);
   const [selectedForest, setSelectedForest] = useState(null);
+  const [mostRecentWeatherMap, setMostRecentWeatherMap] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const path = await getMostRecentWeatherMap();
+      setMostRecentWeatherMap(path);
+    })();
+  });
 
   useEffect(() => {
     const fetchForests = async () => {
@@ -31,15 +46,22 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen w-screen relative">
+    <div className="h-screen w-screen flex flex-col">
+      <Navbar />
       <MapContainer
-        center={centerPosition}
+        center={[33.8938, 36.5018]}
         zoom={9}
         className="h-full w-full z-0"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <TileLayer
+          attribution="RainViewer.com"
+          url={`https://tilecache.rainviewer.com${mostRecentWeatherMap}/256/{z}/{x}/{y}/2/1_1.png`}
+          opacity={0.6}
+          zIndex={2}
         />
         {forests.map((forest) => (
           <Polygon
@@ -55,13 +77,6 @@ const App = () => {
           />
         ))}
       </MapContainer>
-
-      <Link
-        to="/create-forest"
-        className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Create Forest
-      </Link>
 
       {selectedForest && (
         <ForestDrawer
