@@ -36,19 +36,19 @@ jobs:
     steps:
       # Step 1: Check out the repository code
       - uses: actions/checkout@v4
-
+  
       # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-
+  
       # Step 3: Install dependencies and build the project
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
-
+  
       # Step 4: Remove existing build directory on EC2
       - name: Remove existing build directory on EC2
         uses: appleboy/ssh-action@v0.1.5
@@ -57,7 +57,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: sudo rm -rf /home/ubuntu/fyp-2-web/build
-
+  
       # Step 5: Transfer the build files to EC2
       - name: Transfer build files to EC2
         uses: appleboy/scp-action@v0.1.4
@@ -67,8 +67,20 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           source: 'build/*'
           target: '/home/ubuntu/fyp-2-web'
-
-      # Step 6: Set ownership and permissions on EC2 (optional, but recommended)
+  
+      # Step 6: Create or update the .env file on EC2
+      - name: Create .env file on EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" | sudo tee -a /home/ubuntu/fyp-2-web/.env
+            sudo chown www-data:www-data /home/ubuntu/fyp-2-web/.env
+            sudo chmod 600 /home/ubuntu/fyp-2-web/.env
+  
+      # Step 7: Set ownership and permissions on EC2 (optional, but recommended)
       - name: Set permissions on EC2
         uses: appleboy/ssh-action@v0.1.5
         with:
@@ -78,8 +90,8 @@ jobs:
           script: |
             sudo chown -R www-data:www-data /home/ubuntu/fyp-2-web/build
             sudo chmod -R 755 /home/ubuntu/fyp-2-web/build
-
-      # Step 7: Restart Nginx to serve the new build
+  
+      # Step 8: Restart Nginx to serve the new build
       - name: Restart Nginx on EC2
         uses: appleboy/ssh-action@v0.1.5
         with:
