@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/create-forest" element={<CreateForest />} />
-      <Route path="/add-nodes/:forestId" element={<AddNodes />} />
+      <Route path="/:forestId" element={<AddNodes />} />
     </Routes>
   </BrowserRouter>
 );
