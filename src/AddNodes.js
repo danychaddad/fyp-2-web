@@ -140,7 +140,7 @@ const AddNodes = () => {
             )}
           </MapContainer>
         </div>
-        <div className="w-1/4 h-full p-4 bg-gray-100">
+        <div className="w-1/4 h-100 p-4 bg-gray-100">
           <h2 className="text-lg font-semibold mb-4">Add Node</h2>
           <input
             type="text"
@@ -156,7 +156,7 @@ const AddNodes = () => {
           >
             Add Node
           </button>
-          <div className="mt-4">
+          <div className="mt-4  overflow-scroll">
             <h2 className="text-lg font-semibold mb-2">Nodes in Forest</h2>
             <div className="space-y-4">
               {nodes.map((node) => (

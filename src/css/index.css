@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root, #root>div {
-  height: 100%
-}
-
 .sensor-data {
   display: flex;
   flex-direction: column;

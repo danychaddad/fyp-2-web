@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, RefreshCcw, PlusCircle, ArrowLeft, Download } from "lucide-react";
+import { X, PlusCircle, ArrowLeft, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ForestDrawer = ({ forest, onClose, refreshData, nodes }) => {
@@ -17,7 +17,6 @@ const ForestDrawer = ({ forest, onClose, refreshData, nodes }) => {
     try {
       setSelectedNode(node);
 
-      // Fetch latest readings
       const readingsResponse = await fetch(
         `${process.env.REACT_APP_API_URL}/nodes/${node.macAddress}/readings`
       );
@@ -34,13 +33,12 @@ const ForestDrawer = ({ forest, onClose, refreshData, nodes }) => {
         setLatestReading(null);
       }
 
-      // Fetch latest image
       const imageResponse = await fetch(
         `${process.env.REACT_APP_API_URL}/nodes/${node.macAddress}/images/latest`
       );
       if (imageResponse.ok) {
         const imageData = await imageResponse.json();
-        setLatestImage(imageData.image); // Use Base64 string directly
+        setLatestImage(imageData.image);
       } else {
         setLatestImage(null);
       }
@@ -169,12 +167,12 @@ const ForestDrawer = ({ forest, onClose, refreshData, nodes }) => {
           >
             <PlusCircle className="mr-2" /> Add Nodes
           </button>
-          <button
+          {/* <button
             className="bg-orange-300 w-full p-2 rounded-lg flex justify-center items-center"
             onClick={refreshData}
           >
             <RefreshCcw className="mr-2" /> Refresh Data
-          </button>
+          </button> */}
         </div>
       )}
 
