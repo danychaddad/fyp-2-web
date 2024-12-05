@@ -10,6 +10,18 @@ import "leaflet-draw/dist/leaflet.draw.css";
 const CreateForest = () => {
   const [forestName, setForestName] = useState("");
   const [forestAreas, setForestAreas] = useState([]);
+  const [formulaParams, setFormulaParams] = useState({
+    x1: "",
+    x2: "",
+    x3: "",
+    x4: "",
+    x5: "",
+    x6: "",
+    x7: "",
+    x8: "",
+    x9: "",
+    x10: "",
+  });
   const [allForests, setAllForests] = useState([]);
   const featureGroupRef = useRef(null);
   const navigate = useNavigate();
@@ -39,9 +51,22 @@ const CreateForest = () => {
     setForestAreas([]);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormulaParams((prevParams) => ({
+      ...prevParams,
+      [name]: value,
+    }));
+  };
+
   const handleCreateForest = async () => {
     if (!forestName || forestAreas.length === 0) {
       alert("Please enter a forest name and draw at least one area.");
+      return;
+    }
+
+    if (Object.values(formulaParams).some((value) => value === "")) {
+      alert("Please fill in all formula parameters.");
       return;
     }
 
@@ -56,6 +81,11 @@ const CreateForest = () => {
       name: forestName,
       verticesOfForest,
       nodesInForest,
+      formulaParams: {
+        ...Object.fromEntries(
+          Object.entries(formulaParams).map(([key, value]) => [key, parseFloat(value)])
+        ),
+      },
     };
 
     try {
@@ -63,6 +93,18 @@ const CreateForest = () => {
       alert("Forest created successfully!");
       setForestName("");
       setForestAreas([]);
+      setFormulaParams({
+        x1: "",
+        x2: "",
+        x3: "",
+        x4: "",
+        x5: "",
+        x6: "",
+        x7: "",
+        x8: "",
+        x9: "",
+        x10: "",
+      });
       navigate("/");
     } catch (error) {
       console.error("Error creating forest:", error);
@@ -119,17 +161,16 @@ const CreateForest = () => {
             className="w-full p-2 mb-4 border rounded"
           />
           <div className="mb-4">
-            {forestAreas.map((area, index) => (
-              <div key={index} className="mb-2">
-                {area.map((coord, coordIndex) => (
-                  <p key={coordIndex} className="mb-3 flex-row flex items-center">
-                    <div className="mr-4 text-lg">{coordIndex}.</div>
-                    <div>
-                      <p>Lat: {coord.latitude}</p>
-                      <p>Lng: {coord.longitude}</p>
-                    </div>
-                  </p>
-                ))}
+            {Object.keys(formulaParams).map((param) => (
+              <div key={param} className="mb-2">
+                <label className="block text-gray-700 mb-1">{param.toUpperCase()}</label>
+                <input
+                  type="number"
+                  name={param}
+                  value={formulaParams[param]}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded"
+                />
               </div>
             ))}
           </div>

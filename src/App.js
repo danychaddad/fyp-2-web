@@ -269,7 +269,7 @@ const App = () => {
 
     fetchData();
 
-    const refreshInterval = setInterval(fetchData, 30000); // Refresh every 30 seconds
+    const refreshInterval = setInterval(fetchData, 10000); // Refresh every 10 seconds
 
     return () => clearInterval(refreshInterval);
   }, []);
