@@ -111,10 +111,6 @@ const ForestDrawer = ({ forest, onClose, refreshData, nodes }) => {
                 <p>
                   <strong>Longitude:</strong> {node.longitude || "N/A"}
                 </p>
-                <p>
-                  <strong>Sensor Readings Count:</strong>{" "}
-                  {node.sensorReadingIds?.length || 0}
-                </p>
               </div>
             ))
           ) : (

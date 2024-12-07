@@ -83,13 +83,17 @@ const CreateForest = () => {
       nodesInForest,
       formulaParams: {
         ...Object.fromEntries(
-          Object.entries(formulaParams).map(([key, value]) => [key, parseFloat(value)])
+          Object.entries(formulaParams).map(([key, value]) => [
+            key,
+            parseFloat(value),
+          ])
         ),
       },
     };
 
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/forests`, forestData);
+      navigate("/");
       alert("Forest created successfully!");
       setForestName("");
       setForestAreas([]);
@@ -105,18 +109,30 @@ const CreateForest = () => {
         x9: "",
         x10: "",
       });
-      navigate("/");
     } catch (error) {
       console.error("Error creating forest:", error);
       alert("Failed to create forest.");
     }
   };
 
+  const parameterTitles = {
+    x1: "Slope",
+    x2: "Area of Grassland Conversion to Settlement",
+    x3: "Area of Forest Conversion to Settlement",
+    x4: "Area of Tree Stands with Medium to Heavy Surface Fuels",
+    x5: "Area of Tall Shrubs",
+    x6: "Area of Medium-Height Shrubs",
+    x7: "Area of Surface Fuels",
+    x8: "Area of Grass",
+    x9: "Length of Agricultural-Urban Interface",
+    x10: "Area of Fruit Trees Cultivation",
+  };
+
   return (
-    <div className="h-screen w-screen flex flex-col">
+    <div className="h-screen w-screen flex flex-col overflow-hidden">
       <Navbar />
       <div className="flex flex-grow">
-        <div className="w-3/4 h-full">
+        <div className="w-2/3 h-full">
           <MapContainer
             center={[33.8938, 36.5018]}
             zoom={9}
@@ -152,7 +168,7 @@ const CreateForest = () => {
             </FeatureGroup>
           </MapContainer>
         </div>
-        <div className="w-1/4 h-full p-4 bg-gray-100">
+        <div className="w-1/3 h-screen overflow-y-scroll p-4 bg-gray-100">
           <input
             type="text"
             placeholder="Enter forest name"
@@ -163,7 +179,9 @@ const CreateForest = () => {
           <div className="mb-4">
             {Object.keys(formulaParams).map((param) => (
               <div key={param} className="mb-2">
-                <label className="block text-gray-700 mb-1">{param.toUpperCase()}</label>
+                <label className="block text-gray-700 mb-1">
+                  {parameterTitles[param]}
+                </label>
                 <input
                   type="number"
                   name={param}
@@ -176,7 +194,7 @@ const CreateForest = () => {
           </div>
           <button
             onClick={handleCreateForest}
-            className="w-full bg-blue-500 text-white p-2 rounded"
+            className="w-full bg-blue-500 text-white p-2 mb-11 rounded"
           >
             Create Forest
           </button>
