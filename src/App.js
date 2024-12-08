@@ -25,7 +25,7 @@ const getMostRecentWeatherMap = async () => {
 
 const getFirmsFireData = async () => {
   const res = await fetch(
-    "https://firms.modaps.eosdis.nasa.gov/api/country/csv/52726a73234b9b7b383ab53ad0f89a08/VIIRS_NOAA20_NRT/LBN/1"
+    "https://firms.modaps.eosdis.nasa.gov/api/country/csv/52726a73234b9b7b383ab53ad0f89a08/VIIRS_NOAA20_NRT/SYR/1"
   );
   const text = await res.text();
   return Papa.parse(text, { header: true }).data;
